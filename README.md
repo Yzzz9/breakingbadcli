@@ -1,11 +1,11 @@
 # breakingbadcli
 breaking bad cli to get info about episodes
 
-## command
-# breakingbadcli -help
+# command
+## breakingbadcli -help
 - will give output of list of flags
 
-# breakingbadcli -ep [num]
+## breakingbadcli -ep [num]
 - will give output of details about episode
 
 # Public API
