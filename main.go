@@ -19,6 +19,7 @@ func init() {
 func main() {
     flag.Parse()
 
+    // if number of flags are zero, display message and exit
     if flag.NFlag() == 0 {
         fmt.Printf("Usage: %s [option]\n", os.Args[0])
         fmt.Println("Options :")
@@ -28,10 +29,12 @@ func main() {
 
     fmt.Printf("Searching for episode %v ...\n", data.Episode)
 
+    // Adding waitgroups
     var wg sync.WaitGroup
     
     wg.Add(1)
 
+    // Calling method from cli package
     go cli.GetEpisodeFromApi(&wg)
 
     wg.Wait()

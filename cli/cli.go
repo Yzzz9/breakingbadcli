@@ -4,6 +4,7 @@ import(
     "fmt"
     "encoding/json"
     "os"
+    "log"
     "strconv"
     "sync"
     "io/ioutil"
@@ -21,23 +22,26 @@ func GetEpisodeFromApi(wg *sync.WaitGroup) {
 
     episodeNum := "episodes/" + strconv.Itoa(data.Episode)
     
+    // Get response from REST API
     resp, err := http.Get(baseURL + episodeNum)
 
-    // fmt.Println("Body re body :", resp)
-
+    // Close response body at end of the function
     defer resp.Body.Close()
 
+    // Handle the error
     if err != nil {
-        fmt.Println("The HTTP request failed with ERROR :", err)
-        os.Exit(1)
+        log.Fatal(err)
     }
 
+    // if response is proper print output
     if resp.StatusCode == 200 {
+        // Read response body
         resp_data, err := ioutil.ReadAll(resp.Body)
         if err != nil {
-            fmt.Println("Failed to read data from Response with ERROR :", err)
+            fmt.Println("Failed to read data from Response with ERROR")
+            log.Fatal(err)
         }
-        // fmt.Printf("resp_data", resp_data)
+        // Converting JSON to slice of Response struct from package data
         json.Unmarshal(resp_data, &resp_body)
 
         for _, r_body := range resp_body {
@@ -56,5 +60,6 @@ func GetEpisodeFromApi(wg *sync.WaitGroup) {
         fmt.Println("Episode", data.Episode, "not Found!")
     }
 
+    // Send waitgroup response
     wg.Done()
 }

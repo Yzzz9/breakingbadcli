@@ -2,6 +2,7 @@ package data
 
 var Episode int
 
+// Response struct
 type Response struct {
     Eid int `json:"episode_id"`
     Title string `json:"title"`
